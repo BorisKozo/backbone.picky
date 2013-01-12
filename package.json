@@ -4,5 +4,8 @@
   "dependencies": {
     "grunt": "*",
     "grunt-rigger": "*"
+  },
+  "devDependencies": {
+	"testacular":"*"
   }
 }
