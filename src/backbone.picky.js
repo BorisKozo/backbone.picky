@@ -146,7 +146,17 @@ Backbone.Picky = (function (Backbone, _) {
       } else {
         this.select();
       }
+    },
+
+    // Change the selection to the given value
+    changeSelected: function (value) {
+        if (value) {
+            this.select();
+        } else {
+            this.deselect();
+        }
     }
+
   });
 
   // Helper Methods

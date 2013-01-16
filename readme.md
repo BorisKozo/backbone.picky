@@ -133,12 +133,12 @@ myModel.selected; //=> true
 #### Selectable#deselect
 
 Deselect a model, setting the model's `selected` attribute to false and 
-triggering a "deselect" event.
+triggering a "deselected" event.
 
 ```js
 var myModel = new SelectableModel();
 
-myModel.on("deselect", function(){
+myModel.on("deselected", function(){
   console.log("I'm no longer selected!");
 });
 
@@ -151,8 +151,7 @@ myModel.selected; //=> false
 
 #### Selectable#toggleSelected
 
-Toggles the selection state between selected and deselected by calling
-the `select` or `deselect` method appropriately.
+Toggles the selection state between selected and deselected.
 
 ```js
 var myModel = new SelectableModel();
@@ -161,13 +160,33 @@ myModel.on("select", function(){
   console.log("I'm selected!");
 });
 
-myModel.on("deselect", function(){
+myModel.on("deselected", function(){
   console.log("I'm no longer selected!");
 });
 
 // toggle selection
 myModel.toggleSelected(); //=> "I'm selected!"
 myModel.toggleSelected(); //=> "I'm no longer selected!"
+```
+
+#### Selectable#changeSelected(value)
+
+If the given _value_ is truthy selects the model, otherwise deselects it.
+
+```js
+var myModel = new SelectableModel();
+
+myModel.on("select", function(){
+  console.log("I'm selected!");
+});
+
+myModel.on("deselected", function(){
+  console.log("I'm no longer selected!");
+});
+
+// toggle selection
+myModel.changeSelected(true); //=> "I'm selected!"
+myModel.changeSelected(false); //=> "I'm no longer selected!"
 ```
 
 ### Selectable Attributes

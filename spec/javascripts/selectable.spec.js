@@ -84,4 +84,126 @@ describe("selectable model", function(){
     });
   });
 
+  describe("when toggling a model that is selected", function () {
+      var model;
+
+      beforeEach(function () {
+          model = new Model();
+          model.select();
+
+          spyOn(model, "trigger").andCallThrough();
+          model.toggleSelected();
+      });
+
+      it("should not be selected", function () {
+          expect(model.selected).toBe(false);
+      });
+
+      it("should notify of deselection", function () {
+          expect(model.trigger).toHaveBeenCalledWith("deselected");
+      });
+  });
+
+  describe("when toggling a model that is not selected", function () {
+      var model;
+
+      beforeEach(function () {
+          model = new Model();
+          model.deselect();
+
+          spyOn(model, "trigger").andCallThrough();
+          model.toggleSelected();
+      });
+
+      it("should be selected", function () {
+          expect(model.selected).toBe(true);
+      });
+
+      it("should notify of selection", function () {
+          expect(model.trigger).toHaveBeenCalledWith("selected");
+      });
+  });
+
+  describe("when changing selection of an unselected model to selected", function () {
+      var model;
+
+      beforeEach(function () {
+          model = new Model();
+          model.deselect();
+
+          spyOn(model, "trigger").andCallThrough();
+          model.changeSelected(true);
+      });
+
+      it("should be selected", function () {
+          expect(model.selected).toBe(true);
+      });
+
+      it("should notify of deselection", function () {
+          expect(model.trigger).toHaveBeenCalledWith("selected");
+      });
+  });
+
+  describe("when changing selection of a selected model to selected", function () {
+      var model;
+
+      beforeEach(function () {
+          model = new Model();
+          model.select();
+
+          spyOn(model, "trigger").andCallThrough();
+          model.changeSelected(true);
+      });
+
+      it("should be selected", function () {
+          expect(model.selected).toBe(true);
+      });
+
+      it("should not notify of selection", function () {
+          expect(model.trigger).not.toHaveBeenCalledWith("selected");
+      });
+  });
+
+  describe("when changing selection of an selected model to deselected", function () {
+      var model;
+
+      beforeEach(function () {
+          model = new Model();
+          model.select();
+
+          spyOn(model, "trigger").andCallThrough();
+          model.changeSelected(false);
+      });
+
+      it("should be selected", function () {
+          expect(model.selected).toBe(false);
+      });
+
+      it("should notify of deselection", function () {
+          expect(model.trigger).toHaveBeenCalledWith("deselected");
+      });
+  });
+
+  describe("when changing selection of a deselected model to deselected", function () {
+      var model;
+
+      beforeEach(function () {
+          model = new Model();
+          model.deselect();
+
+          spyOn(model, "trigger").andCallThrough();
+          model.changeSelected(false);
+      });
+
+      it("should be deselected", function () {
+          expect(model.selected).toBe(false);
+      });
+
+      it("should not notify of deselection", function () {
+          expect(model.trigger).not.toHaveBeenCalledWith("deselected");
+      });
+  });
+
+
+
 });
