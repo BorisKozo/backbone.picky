@@ -1,7 +1,7 @@
 describe("selectable model", function(){
   var Model = Backbone.Model.extend({
     initialize: function(){
-      var selectable = new Backbone.Picky.Selectable();
+      var selectable = new Backbone.Picky.Selectable(this);
       _.extend(this, selectable);
     }
   });
@@ -124,7 +124,7 @@ describe("selectable model", function(){
       });
   });
 
-  describe("when changing selection of an unselected model to selected", function () {
+  describe("when changing selection of a deselected model to selected", function () {
       var model;
 
       beforeEach(function () {

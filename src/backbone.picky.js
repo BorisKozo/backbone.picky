@@ -107,7 +107,9 @@ Backbone.Picky = (function (Backbone, _) {
   // enabling it to work with Picky.MultiSelect or on it's own
 
   Picky.Selectable = function (model) {
-    this.model = model;
+      this.model = model;
+      if (model.selected === undefined)
+          model.selected = false;
   };
 
   _.extend(Picky.Selectable.prototype, {
