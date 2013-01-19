@@ -2,7 +2,7 @@ describe("single select collection", function(){
 
   var Model = Backbone.Model.extend({
     initialize: function(){
-      var selectable = new Backbone.Picky.Selectable();
+      var selectable = new Backbone.Picky.Selectable(this);
       _.extend(this, selectable);
     }
   });
@@ -11,7 +11,7 @@ describe("single select collection", function(){
     model: Model,
 
     initialize: function(){
-      var singleSelect = new Backbone.Picky.SingleSelect();
+      var singleSelect = new Backbone.Picky.SingleSelect(this);
       _.extend(this, singleSelect);
     }
   });
@@ -222,6 +222,28 @@ describe("single select collection", function(){
     it("should not trigger a deselected event for the non-selected model", function(){
       expect(collection.trigger).not.toHaveBeenCalledWith("deselected", m2);
     });
+  });
+
+  describe("when a model is selected but it is not in the collection", function () {
+      var collection;
+
+      beforeEach(function () {
+          collection = new Collection();
+
+          model = new Model();
+
+          spyOn(collection, "trigger").andCallThrough();
+
+          collection.select(model);
+      });
+
+      it("should not have a selected model", function () {
+          expect(collection.selected).toBeUndefined();
+      });
+
+      it("should not trigger a selected or deselected event", function () {
+          expect(collection.trigger).not.toHaveBeenCalled();
+      });
   });
 
 });

@@ -475,15 +475,15 @@ myCol.selectedLength; //=> 1
 The following events are triggered by the MultiSelect based on changes
 in selection:
 
-#### "select:all"
+#### "selected:all"
 
 Triggered when all models have been selected
 
-#### "select:none"
+#### "selected:none"
 
 Triggered when all models have been deselected
 
-#### "select:some"
+#### "selected:some"
 
 Triggered when at least 1 model is selected, but less than all models have
 been selected

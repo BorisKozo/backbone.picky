@@ -1,7 +1,7 @@
 describe("multi-select selectable interaction", function(){
   var Model = Backbone.Model.extend({
     initialize: function(){
-      var selectable = new Backbone.Picky.Selectable();
+      var selectable = new Backbone.Picky.Selectable(this);
       _.extend(this, selectable);
     }
   });
@@ -10,7 +10,7 @@ describe("multi-select selectable interaction", function(){
     model: Model,
 
       initialize: function(){
-        var multiSelect = new Backbone.Picky.MultiSelect();
+        var multiSelect = new Backbone.Picky.MultiSelect(this);
         _.extend(this, multiSelect);
       }
   });
@@ -31,7 +31,7 @@ describe("multi-select selectable interaction", function(){
       });
 
       it("should trigger 'some' selected event", function(){
-        expect(collection.trigger).toHaveBeenCalledWith("select:some", collection);
+        expect(collection.trigger).toHaveBeenCalledWith("selected:some", collection);
       });
 
       it("should have a selected count of 1", function(){
@@ -63,7 +63,7 @@ describe("multi-select selectable interaction", function(){
       });
 
       it("should trigger 'all' selected event", function(){
-        expect(collection.trigger).toHaveBeenCalledWith("select:all", collection);
+        expect(collection.trigger).toHaveBeenCalledWith("selected:all", collection);
       });
 
       it("should have a selected count of 2", function(){
@@ -93,7 +93,7 @@ describe("multi-select selectable interaction", function(){
       });
 
       it("should trigger 'none' selected event", function(){
-        expect(collection.trigger).toHaveBeenCalledWith("select:none", collection);
+        expect(collection.trigger).toHaveBeenCalledWith("selected:none", collection);
       });
 
       it("should have a selected count of 0", function(){
@@ -121,7 +121,7 @@ describe("multi-select selectable interaction", function(){
       });
 
       it("should trigger 'all' selected event", function(){
-        expect(collection.trigger).toHaveBeenCalledWith("select:all", collection);
+        expect(collection.trigger).toHaveBeenCalledWith("selected:all", collection);
       });
 
       it("should have a selected count of 2", function(){
@@ -155,7 +155,7 @@ describe("multi-select selectable interaction", function(){
       });
 
       it("should trigger 'some' selected event", function(){
-        expect(collection.trigger).toHaveBeenCalledWith("select:some", collection);
+        expect(collection.trigger).toHaveBeenCalledWith("selected:some", collection);
       });
 
       it("should have a selected count of 1", function(){
@@ -188,7 +188,7 @@ describe("multi-select selectable interaction", function(){
       });
 
       it("should trigger 'none' selected event", function(){
-        expect(collection.trigger).toHaveBeenCalledWith("select:none", collection);
+        expect(collection.trigger).toHaveBeenCalledWith("selected:none", collection);
       });
 
       it("should have a selected count of 0", function(){
@@ -219,6 +219,33 @@ describe("multi-select selectable interaction", function(){
       it("should select the model", function(){
         expect(m1.select).toHaveBeenCalled();
       });
+    });
+
+    describe("when selecting a model which is not in the collection through the collection's select method", function () {
+        var m1, collection;
+
+        beforeEach(function () {
+            m1 = new Model();
+            spyOn(m1, "select").andCallThrough();
+            collection = new Collection();
+
+            collection.select(m1);
+        });
+
+        it("should select the model", function () {
+            expect(m1.select).not.toHaveBeenCalled();
+        });
+
+        it("the model is not selected", function () {
+            expect(m1.selected).toBeFalsy();
+        });
+
+        it("the selectedLength should be 0", function () {
+            console.log(collection);
+            expect(collection.selectedLength).toBe(0);
+        });
+
+
     });
 
     describe("when deselecting a model through the collection's select method", function(){
@@ -255,7 +282,7 @@ describe("multi-select selectable interaction", function(){
       });
 
       it("should trigger 'all' selected event", function(){
-        expect(collection.trigger).toHaveBeenCalledWith("select:all", collection);
+        expect(collection.trigger).toHaveBeenCalledWith("selected:all", collection);
       });
 
       it("should have a selected count of 2", function(){
@@ -289,7 +316,7 @@ describe("multi-select selectable interaction", function(){
       });
 
       it("should trigger 'some' selected event", function(){
-        expect(collection.trigger).toHaveBeenCalledWith("select:some", collection);
+        expect(collection.trigger).toHaveBeenCalledWith("selected:some", collection);
       });
 
       it("should have a selected count of 1", function(){
@@ -322,7 +349,7 @@ describe("multi-select selectable interaction", function(){
       });
 
       it("should trigger 'none' selected event", function(){
-        expect(collection.trigger).toHaveBeenCalledWith("select:none", collection);
+        expect(collection.trigger).toHaveBeenCalledWith("selected:none", collection);
       });
 
       it("should have a selected count of 0", function(){

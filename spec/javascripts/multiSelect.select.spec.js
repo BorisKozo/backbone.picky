@@ -1,7 +1,7 @@
 describe("multi-select collection selecting", function(){
   var Model = Backbone.Model.extend({
     initialize: function(){
-      var selectable = new Backbone.Picky.Selectable();
+      var selectable = new Backbone.Picky.Selectable(this);
       _.extend(this, selectable);
     }
   });
@@ -10,7 +10,7 @@ describe("multi-select collection selecting", function(){
     model: Model,
 
     initialize: function(){
-      var multiSelect = new Backbone.Picky.MultiSelect();
+      var multiSelect = new Backbone.Picky.MultiSelect(this);
       _.extend(this, multiSelect);
     }
   });
@@ -29,7 +29,7 @@ describe("multi-select collection selecting", function(){
     });
     
     it("should trigger 'all' selected event", function(){
-      expect(collection.trigger).toHaveBeenCalledWith("select:all", collection);
+      expect(collection.trigger).toHaveBeenCalledWith("selected:all", collection);
     });
 
     it("should have a selected count of 2", function(){
@@ -60,7 +60,7 @@ describe("multi-select collection selecting", function(){
     });
     
     it("should trigger 'all' selected event", function(){
-      expect(collection.trigger).toHaveBeenCalledWith("select:all", collection);
+      expect(collection.trigger).toHaveBeenCalledWith("selected:all", collection);
     });
 
     it("should have a selected count of 2", function(){
@@ -92,7 +92,7 @@ describe("multi-select collection selecting", function(){
     });
     
     it("should trigger 'all' selected event", function(){
-      expect(collection.trigger).toHaveBeenCalledWith("select:all", collection);
+      expect(collection.trigger).toHaveBeenCalledWith("selected:all", collection);
     });
 
     it("should have a selected count of 2", function(){

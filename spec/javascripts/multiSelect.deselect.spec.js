@@ -1,7 +1,7 @@
 describe("multi-select collection deselecting", function(){
   var Model = Backbone.Model.extend({
     initialize: function(){
-      var selectable = new Backbone.Picky.Selectable();
+      var selectable = new Backbone.Picky.Selectable(this);
       _.extend(this, selectable);
     }
   });
@@ -9,8 +9,8 @@ describe("multi-select collection deselecting", function(){
   var Collection = Backbone.Collection.extend({
     model: Model,
 
-    initialize: function(){
-      var multiSelect = new Backbone.Picky.MultiSelect();
+    initialize: function(options){
+        var multiSelect = new Backbone.Picky.MultiSelect(this);
       _.extend(this, multiSelect);
     }
   });
@@ -21,15 +21,16 @@ describe("multi-select collection deselecting", function(){
     beforeEach(function(){
       m1 = new Model();
       m2 = new Model();
-
       collection = new Collection([m1, m2]);
+      m1.select();
+      m2.select();
       spyOn(collection, "trigger").andCallThrough();
 
-      collection.selectNone();
+      collection.deselectAll();
     });
     
     it("should trigger 'none' selected event", function(){
-      expect(collection.trigger).toHaveBeenCalledWith("select:none", collection);
+      expect(collection.trigger).toHaveBeenCalledWith("selected:none", collection);
     });
 
     it("should have a selected count of 0", function(){
@@ -53,11 +54,11 @@ describe("multi-select collection deselecting", function(){
       m1.select();
 
       spyOn(collection, "trigger").andCallThrough();
-      collection.selectNone();
+      collection.deselectAll();
     });
     
     it("should trigger 'none' selected event", function(){
-      expect(collection.trigger).toHaveBeenCalledWith("select:none", collection);
+      expect(collection.trigger).toHaveBeenCalledWith("selected:none", collection);
     });
 
     it("should have a selected count of 0", function(){
@@ -82,11 +83,11 @@ describe("multi-select collection deselecting", function(){
       m2.select();
 
       spyOn(collection, "trigger").andCallThrough();
-      collection.selectNone();
+      collection.deselectAll();
     });
     
     it("should trigger 'none' selected event", function(){
-      expect(collection.trigger).toHaveBeenCalledWith("select:none", collection);
+      expect(collection.trigger).toHaveBeenCalledWith("selected:none", collection);
     });
 
     it("should have a selected count of 0", function(){

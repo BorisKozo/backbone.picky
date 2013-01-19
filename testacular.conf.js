@@ -22,6 +22,8 @@ exclude = [
   
 ];
 
+logLevel: "LOG_DEBUG";
+
 
 // test results reporter to use
 // possible values: 'dots', 'progress', 'junit'

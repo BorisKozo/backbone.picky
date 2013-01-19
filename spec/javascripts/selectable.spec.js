@@ -7,7 +7,7 @@ describe("selectable model", function(){
   });
 
   describe("when selecting a model", function(){
-    var model;
+      var model;
 
     beforeEach(function(){
       model = new Model();
@@ -196,7 +196,7 @@ describe("selectable model", function(){
       });
 
       it("should be deselected", function () {
-          expect(model.selected).toBe(false);
+          expect(model.selected).toBeFalsy();
       });
 
       it("should not notify of deselection", function () {
