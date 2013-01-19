@@ -1,6 +1,8 @@
 # Backbone.Picky
 
 Selectable entities as mixins for Backbone.Model and Backbone.Collection!
+This version is based on Derick Bailey's version but adds several functionalities and 
+changes from the original version.
 
 ## Source Code And Downloads
 
@@ -13,15 +15,15 @@ which point to the 'master' branch's builds:
 
 ### Standard Builds
 
-Development: [backbone.picky.js](https://raw.github.com/derickbailey/backbone.picky/master/lib/backbone.picky.js)
+Development: [backbone.picky.js](https://raw.github.com/BorisKozo/backbone.picky/master/lib/backbone.picky.js)
 
-Production: [backbone.picky.min.js](https://raw.github.com/derickbailey/backbone.picky/master/lib/backbone.picky.min.js)
+Production: [backbone.picky.min.js](https://raw.github.com/BorisKozo/backbone.picky/master/lib/backbone.picky.min.js)
 
 ### AMD/RequireJS Builds
 
-Development: [backbone.picky.js](https://raw.github.com/derickbailey/backbone.picky/master/lib/amd/backbone.picky.js)
+Development: [backbone.picky.js](https://raw.github.com/BorisKozo/backbone.picky/master/lib/amd/backbone.picky.js)
 
-Production: [backbone.picky.min.js](https://raw.github.com/derickbailey/backbone.picky/master/lib/amd/backbone.picky.min.js)
+Production: [backbone.picky.min.js](https://raw.github.com/BorisKozo/backbone.picky/master/lib/amd/backbone.picky.min.js)
 
 ## Documentation
 
@@ -29,17 +31,9 @@ This readme file contains basic usage examples and
 details on the full API, including methods, 
 attributes and events.
 
-### Annotated Source Code
-
-Picky has annotated source code using the Docco tool to turn
-comments in to documentation. This provides an in-depth look
-at what each section of is doing.
-
-##### [View The Annotated Source Code](http://derickbailey.github.com/backbone.picky/docs/backbone.picky.html)
-
 ## Method Name Overrides
 
-#### IMPORTANT NOTE ABOUT METHOD NAME "select"
+#### IMPORTANT NOTE ABOUT METHOD NAME "select" by Derick Bailey
 
 The Picky collections override the metho `select` on collections. At this
 point, I can't think of a better name for specifying a model has been
@@ -50,9 +44,9 @@ collection that has a Picky collection mixin.
 ## Model and Collection Interactions
 
 If you implement a `Selectable` model, the methods on the models and the
-`MultiSelect` collection will keep each other in sync. That is, if you
+`MultiSelect` or `SingleSelect` collection will keep each other in sync. That is, if you
 call `model.select()` on a model, the collection will be notified of the
-model being selected and it will correctly update the `selectedLength` and
+model being selected and it will correctly update, for example, the `selectedLength` and
 fire the correct events.
 
 Therefore, the following are functionally the same:
@@ -79,7 +73,7 @@ usable by the selection methods and functionality:
 * `select: function(){...}`
 * `deselect: function(){...}`
 
-The easiest way to do this is to have your model extend `Selectable`. You
+The easiest way to do this is to have your model mixed with `Selectable`. You
 can, however, implement your own version of these methods.
 
 ## Backbone.Picky's Components:
@@ -93,10 +87,6 @@ can, however, implement your own version of these methods.
 Creates selectable capabilities for a model, including tracking whether or
 not the model is selected, and raising events when selection changes.
 
-```js
-var selectable = new Backbone.Picky.Selectable(myModel);
-```
-
 ### Basic Usage
 
 Extend your model with the `Selectable` instance to make your model
@@ -105,15 +95,14 @@ selectable directly.
 ```js
 SelectableModel = Backbone.Model.extend({
   initialize: function(){
-    var selectable = new Backbone.Picky.Selectable(this);
-    _.extend(this, selectable);
+    Backbone.Picky.Selectable.mixInto(this);
   }
 });
 ```
 
 ### Selectable Methods
 
-The following methods are included in the `Selectable` object
+The following methods are included in the `Selectable` mixin
 
 #### Selectable#select
 
@@ -195,7 +184,7 @@ The following attributes are manipulated by the Selectable object
 
 #### Selectable#selected
 
-Returns a boolean value indicating whether or not the model is
+Returns a truthy value indicating whether or not the model is
 currently selected.
 
 ### Selectable Events
@@ -216,20 +205,16 @@ Creates single-select capabilities for a `Backbone.Collection`, allowing
 a single model to be exclusively selected within the colllection. Selecting
 another model will cause the first one to be deselected.
 
-```js
-var singleSelect = new Backbone.Picky.SingleSelect(myCollection) ;
-```
-
 ### Basic Usage
 
-Extend your collection with the `SingleSelect` instance to make your 
-collection support exclusive selections directly.
+Mix `SingleSelect` into your collection to make your 
+it support exclusive selections directly.
+
 
 ```js
 SelectableModel = Backbone.Model.extend({
   initialize: function(){
-    var selectable = new Backbone.Picky.Selectable(this);
-    _.extend(this, selectable);
+    Backbone.Picky.Selectable.mixInto(this);
   }
 });
 
@@ -237,15 +222,14 @@ SingleCollection = Backbone.Collection.extend({
   model: SelectableModel,
 
   initialize: function(){
-    var singleSelect = new Backbone.Picky.SingleSelect(this);
-    _.extend(this, singleSelect);
+    Backbone.Picky.SingleSelect.mixInto(this);
   }
 });
 ```
 
 ### SingleSelect Methods
 
-The following methods are provided by the `SingleSelect` object.
+The following methods are provided by the `SingleSelect` mixin.
 
 #### SingleSelect#select(model)
 
@@ -255,7 +239,7 @@ method to ensure the model knows it has been selected.
 
 ```js
 myModel = new SelectableModel();
-myCol = new MultiCollection();
+myCol = new SingleCollection([myModel]);
 myCol.select(myModel);
 ```
 
@@ -263,7 +247,7 @@ Or
 
 ```js
 myModel = new SelectableModel();
-myCol = new MultiCollection([myModel]);
+myCol = new SingleCollection([myModel]);
 myModel.select();
 ```
 
@@ -303,7 +287,7 @@ The following attribute is set by the multi-select automatically
 Returns the one selected model for this collection
 
 ```js
-myCol = new MultiCollection();
+myCol = new SingleCollection();
 myCol.select(model);
 
 myCol.selected; //=> model
@@ -311,7 +295,7 @@ myCol.selected; //=> model
 
 ### SingleSelect Events
 
-The following events are triggered by the MultiSelect based on changes
+The following events are triggered by the SingleSelect based on changes
 in selection:
 
 #### "selected"
@@ -332,20 +316,15 @@ selection is being replace through another call to `select`.
 Creates multi-select capabilities for a `Backbone.Collection`, including
 select all, select none and select some features.
 
-```js
-var multiSelect = new Backbone.Picky.MultiSelect(myCollection) ;
-```
-
 ### Basic Usage
 
-Extend your collection with the `MultiSleect` instance to make your 
-collection support multiple selections directly.
+Mix `MultiSleect` into your collection to make it 
+support multiple selections directly.
 
 ```js
 SelectableModel = Backbone.Model.extend({
   initialize: function(){
-    var selectable = new Backbone.Picky.Selectable(this);
-    _.extend(this, selectable);
+    Backbone.Picky.Selectable.mixInto(this);
   }
 });
 
@@ -354,8 +333,7 @@ MultiCollection = Backbone.Collection.extend({
   model: SelectableModel,
 
   initialize: function(){
-    var multiSelect = new Backbone.Picky.MultiSelect(this);
-    _.extend(this, multiSelect);
+    Backbone.Picky.MultiSelect.mixInto(this);
   }
 });
 ```
@@ -370,7 +348,7 @@ the collection's `selected` list, and call the model's `select`
 method to ensure the model knows it has been selected.
 
 ```js
-myCol = new MultiCollection();
+myCol = new MultiCollection([myModel]);
 
 myCol.select(myModel);
 ```
@@ -384,7 +362,7 @@ the collection's `selected` list, and call the model's `deselect`
 method to ensure the model knows it has been deselected.
 
 ```js
-myCol = new MultiCollection();
+myCol = new MultiCollection([myModel]);
 
 myCol.deselect(myModel);
 ```
@@ -448,7 +426,7 @@ The following attribute is set by the multi-select automatically
 Returns a hash of selected models, keyed from the model `cid`.
 
 ```js
-myCol = new MultiCollection();
+myCol = new MultiCollection([model]);
 myCol.select(model);
 
 myCol.selected;
@@ -464,7 +442,7 @@ myCol.selected;
 Returns the number of items in the collection that are selected.
 
 ```js
-myCol = new MultiCollection();
+myCol = new MultiCollection([model]);
 myCol.select(model);
 
 myCol.selectedLength; //=> 1
@@ -491,19 +469,12 @@ been selected
 ## Building Backbone.Picky
 
 If you wish to build Backbone.Picky on your system, you will
-need Ruby to run the Jasmine specs, and NodeJS to run the
-grunt build. 
+need Node.js for: Testacular to run the Jasmine specs, and Grunt for the build. 
 
 ### To Run The Jasmine Specs
 
-1. Be sure you have Bundler installed in your Ruby Gems. Then
-run `bundle install` from the project folder
-
-2. Once this is done, you can run `rake jasmine` to run the 
-Jasmine server
-
-3. Point your browser at `http://localhost:8888` and you will
-see all of the specs for Backbone.Picky
+In your console run `npm install` (needed once) then
+type: `make test` 
 
 ### To Build The Packages
 
@@ -515,18 +486,9 @@ see all of the specs for Backbone.Picky
 
 ## Release Notes
 
-### v0.1.0
-
-* Added Picky.SingleSelect
-* Fleshed out the specs more
-
-### v0.0.1
-
-* Initial release of untested code
-* Basic "Selectable" mixin for models
-* Basic "MultiSelect" mixin for collections
 
 ## Legal Mumbo Jumbo (MIT License)
+Copyright (c) 2013 Boris Kozorovitzky, 
 
 Copyright (c) 2012 Derick Bailey, Muted Solutions, LLC
 

@@ -8,9 +8,14 @@ Backbone.Picky = (function (Backbone, _) {
     // model within the collection causes the previous model to be
     // deselected.
 
-    Picky.SingleSelect = function (collection) {
-        //this.collection = collection;
+    Picky.SingleSelect = function () {
     };
+
+    Picky.SingleSelect.mixInto = function (collection) {
+        var singleSelect = new Picky.SingleSelect();
+        _.extend(collection, singleSelect);
+        updateCollectionSelectionSingleSelect(collection);
+    }
 
     _.extend(Picky.SingleSelect.prototype, {
 
@@ -50,19 +55,19 @@ Backbone.Picky = (function (Backbone, _) {
     // Picky.MultiSelect
     // -----------------
     // A mult-select mixin for Backbone.Collection, allowing a collection to
-    // have multiple items selected, including `selectAll` and `selectNone`
+    // have multiple items selected, including `selectAll` and `deselectAll`
     // capabilities.
 
-    Picky.MultiSelect = function (collection) {
-        collection.selected = {};
-        collection.each(function (model) {
-            console.log(model);
-            if (model.selected) {
-                collection.selected[model.cid] = model;
-            }
-        });
-        calculateSelectedLength(collection);
+    Picky.MultiSelect = function () {
     };
+
+    Picky.MultiSelect.mixInto = function (collection, options) {
+        var multiSelect = new Picky.MultiSelect();
+        multiSelect.multiSelectOptions = options;
+        multiSelect.selected = {};
+        _.extend(collection, multiSelect);
+        updateCollectionSelectionMultiSelect(collection);
+    }
 
     _.extend(Picky.MultiSelect.prototype, {
 
@@ -100,7 +105,7 @@ Backbone.Picky = (function (Backbone, _) {
         // Deselect all models in this collection
         deselectAll: function () {
             if (this.selectedLength === 0) { return; }
-            
+
             this.each(function (model) { model.deselect(); });
             calculateSelectedLength(this);
         },
@@ -122,9 +127,13 @@ Backbone.Picky = (function (Backbone, _) {
     // A selectable mixin for Backbone.Model, allowing a model to be selected,
     // enabling it to work with Picky.MultiSelect or on it's own
 
-    Picky.Selectable = function (model) {
-        this.model = model;
+    Picky.Selectable = function () {
     };
+
+    Picky.Selectable.mixInto = function(model){
+        var selectable = new Picky.Selectable();
+        _.extend(model, selectable);
+    }
 
     _.extend(Picky.Selectable.prototype, {
 
@@ -183,7 +192,7 @@ Backbone.Picky = (function (Backbone, _) {
     // from the collection based on the number of selected items.
     var calculateSelectedLength = function (collection) {
         collection.selectedLength = _.size(collection.selected);
-        
+
         var selectedLength = collection.selectedLength;
         var length = collection.length;
 
@@ -201,7 +210,31 @@ Backbone.Picky = (function (Backbone, _) {
             collection.trigger("selected:some", collection);
             return;
         }
+    },
+
+    // Update the state of selected metadata on the collection based on 
+    // the items contained in the collection
+    updateCollectionSelectionSingleSelect = function (collection) {
+        collection.each(function (model) {
+            if (model.selected) {
+                collection.selected = model;
+                return;
+            }
+        });
+    },
+
+
+    // Update the state of selected metadata on the collection based on 
+    // the items contained in the collection
+    updateCollectionSelectionMultiSelect = function (collection) {
+        collection.each(function (model) {
+            if (model.selected) {
+                collection.selected[model.cid] = model;
+            }
+        });
+        calculateSelectedLength(collection);
     };
+
 
     return Picky;
 })(Backbone, _);
