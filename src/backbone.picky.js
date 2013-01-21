@@ -15,7 +15,7 @@ Backbone.Picky = (function (Backbone, _) {
         var singleSelect = new Picky.SingleSelect();
         _.extend(collection, singleSelect);
         updateCollectionSelectionSingleSelect(collection);
-    }
+    };
 
     _.extend(Picky.SingleSelect.prototype, {
 
@@ -67,7 +67,7 @@ Backbone.Picky = (function (Backbone, _) {
         multiSelect.selected = {};
         _.extend(collection, multiSelect);
         updateCollectionSelectionMultiSelect(collection);
-    }
+    };
 
     _.extend(Picky.MultiSelect.prototype, {
 
@@ -130,10 +130,10 @@ Backbone.Picky = (function (Backbone, _) {
     Picky.Selectable = function () {
     };
 
-    Picky.Selectable.mixInto = function(model){
+    Picky.Selectable.mixInto = function (model) {
         var selectable = new Picky.Selectable();
         _.extend(model, selectable);
-    }
+    };
 
     _.extend(Picky.Selectable.prototype, {
 
@@ -193,8 +193,8 @@ Backbone.Picky = (function (Backbone, _) {
     var calculateSelectedLength = function (collection) {
         collection.selectedLength = _.size(collection.selected);
 
-        var selectedLength = collection.selectedLength;
-        var length = collection.length;
+        var selectedLength = collection.selectedLength,
+         length = collection.length;
 
         if (selectedLength === length) {
             collection.trigger("selected:all", collection);

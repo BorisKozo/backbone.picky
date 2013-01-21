@@ -480,9 +480,9 @@ type: `make test`
 
 1. Be sure you have NodeJS and NPM installed on your system
 
-2. Run `npm install -g grunt` to install the grunt build system
+2. Run `npm install` to install the grunt build system
 
-3. From the project folder, run `grunt` to produce a build
+3. From the project folder, run `make grunt` to produce a build
 
 ## Release Notes
 
