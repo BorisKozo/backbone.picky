@@ -226,9 +226,10 @@ describe("single select collection", function(){
       var collection;
 
       beforeEach(function () {
+          var model = new Model();
           collection = new Collection();
 
-          model = new Model();
+          
 
           spyOn(collection, "trigger").andCallThrough();
 
@@ -243,5 +244,69 @@ describe("single select collection", function(){
           expect(collection.trigger).not.toHaveBeenCalled();
       });
   });
+
+  describe("when a collection is refreshed and there was a selected item", function () {
+      var collection,model1,model2,model3;
+
+      beforeEach(function () {
+          model1 = new Model();
+          model2 = new Model();
+          model3 = new Model();
+          model1.select();
+          model2.select();
+          model3.deselect();
+          collection = new Collection([model1,model2,model3]);
+          
+
+          spyOn(collection, "trigger").andCallThrough();
+
+          collection.refreshSelection();
+      });
+
+      it("should have model 1 selected", function () {
+          expect(collection.selected).toEqual(model1);
+          expect(model1.selected).toBeTruthy();
+      });
+
+      it("should have model 2 deselected", function () {
+          expect(collection.selected).not.toEqual(model2);
+          expect(model2.selected).toBeFalsy();
+      });
+
+      it("should have model 3 deselected", function () {
+          expect(collection.selected).not.toEqual(model3);
+          expect(model3.selected).toBeFalsy();
+      });
+
+      it("should trigger a selected event", function () {
+          expect(collection.trigger).toHaveBeenCalled();
+      });
+  });
+
+  describe("when a collection is refreshed and there was no selected items", function () {
+      var collection, model1, model2, model3;
+
+      beforeEach(function () {
+          model1 = new Model();
+          model2 = new Model();
+          collection = new Collection([model1, model2, model3]);
+
+
+          spyOn(collection, "trigger").andCallThrough();
+
+          collection.refreshSelection();
+      });
+
+      it("should have no model selected", function () {
+          expect(collection.selected).toBeFalsy();
+      });
+
+      it("should have models deselected", function () {
+          expect(model2.selected).toBeFalsy();
+          expect(model2.selected).toBeFalsy();
+      });
+
+  });
+
 
 });

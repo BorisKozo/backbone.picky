@@ -48,6 +48,26 @@ Backbone.Picky = (function (Backbone, _) {
             this.selected.deselect();
             this.trigger("deselected", this.selected);
             delete this.selected;
+        },
+
+        //Finds the first selected model in the collection and selects it,
+        //deselects all other models
+        refreshSelection: function () {
+            var _this = this;
+            delete _this.selected;
+            
+            this.each(function (model) {
+                if (model.selected) {
+                    if (_this.selected) {
+                        model.deselect({ silent: true });
+                    } else {
+                        _this.selected = model;
+                    }
+                }
+            });
+            if (_this.selected) {
+                _this.trigger("selected", _this.selected);
+            }
         }
 
     });
@@ -139,10 +159,13 @@ Backbone.Picky = (function (Backbone, _) {
 
         // Select this model, and tell our
         // collection that we're selected
-        select: function () {
+        select: function (options) {
             if (this.selected) { return; }
 
             this.selected = true;
+
+            if (options && options.silent) { return; }
+
             this.trigger("selected");
 
             if (this.collection) {
@@ -152,10 +175,13 @@ Backbone.Picky = (function (Backbone, _) {
 
         // Deselect this model, and tell our
         // collection that we're deselected
-        deselect: function () {
+        deselect: function (options) {
             if (!this.selected) { return; }
 
             this.selected = false;
+
+            if (options && options.silent) { return; }
+
             this.trigger("deselected");
 
             if (this.collection) {
@@ -165,20 +191,20 @@ Backbone.Picky = (function (Backbone, _) {
 
         // Change selected to the opposite of what
         // it currently is
-        toggleSelected: function () {
+        toggleSelected: function (options) {
             if (this.selected) {
-                this.deselect();
+                this.deselect(options);
             } else {
-                this.select();
+                this.select(options);
             }
         },
 
         // Change the selection to the given value
-        changeSelected: function (value) {
+        changeSelected: function (value, options) {
             if (value) {
-                this.select();
+                this.select(options);
             } else {
-                this.deselect();
+                this.deselect(options);
             }
         }
 
