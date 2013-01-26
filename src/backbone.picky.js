@@ -11,9 +11,17 @@ Backbone.Picky = (function (Backbone, _) {
     Picky.SingleSelect = function () {
     };
 
-    Picky.SingleSelect.mixInto = function (collection) {
+    Picky.SingleSelect.mixInto = function (collection, options) {
         var singleSelect = new Picky.SingleSelect();
         _.extend(collection, singleSelect);
+        if (options) {
+            collection.singleSelectOptions = options;
+            if (options.selectOnAdd) {
+                collection.on("add", function (model, collection, options) {
+                    collection.select(model);
+                });
+            }
+        }
         updateCollectionSelectionSingleSelect(collection);
     };
 
@@ -69,9 +77,17 @@ Backbone.Picky = (function (Backbone, _) {
 
     Picky.MultiSelect.mixInto = function (collection, options) {
         var multiSelect = new Picky.MultiSelect();
-        multiSelect.multiSelectOptions = options;
+      
         multiSelect.selected = {};
         _.extend(collection, multiSelect);
+        if (options) {
+            multiSelect.multiSelectOptions = options;
+            if (options.selectOnAdd) {
+                collection.on("add", function (model, collection, options) {
+                    collection.select(model);
+                });
+            }
+        }
         updateCollectionSelectionMultiSelect(collection);
     };
 

@@ -289,6 +289,7 @@ describe("single select collection", function(){
       beforeEach(function () {
           model1 = new Model();
           model2 = new Model();
+          model3 = new Model();
           collection = new Collection([model1, model2, model3]);
 
 
@@ -307,6 +308,5 @@ describe("single select collection", function(){
       });
 
   });
-
 
 });
