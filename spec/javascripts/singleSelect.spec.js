@@ -309,4 +309,26 @@ describe("single select collection", function () {
 
     });
 
+    describe("when removing a selected item no item is slected", function () {
+        var collection, model1, model2, model3;
+
+        beforeEach(function () {
+            model1 = new Model();
+            model2 = new Model();
+            model3 = new Model();
+            collection = new Collection([model1, model2, model3]);
+
+            model2.select();
+
+            spyOn(collection, "trigger").andCallThrough();
+
+            collection.remove(model2);
+        });
+
+        it("should have no model selected", function () {
+            expect(collection.selected).toBeFalsy();
+        });
+
+    });
+
 });

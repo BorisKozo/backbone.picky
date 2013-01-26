@@ -14,14 +14,52 @@ Backbone.Picky = (function (Backbone, _) {
     Picky.SingleSelect.mixInto = function (collection, options) {
         var singleSelect = new Picky.SingleSelect();
         _.extend(collection, singleSelect);
-        if (options) {
-            collection.singleSelectOptions = options;
-            if (options.selectOnAdd) {
+
+            if (options && options.selectOnAdd) {
                 collection.on("add", function (model, collection) {
                     collection.select(model);
                 });
             }
-        }
+
+            if (options && options.selectOnRemove) {
+                collection.on("remove", function (model, collection, collectionOptions) {
+                    var index = collectionOptions.index,
+                        prevIndex = Math.max(index - 1, 0),
+                        nextIndex = Math.min(index, collection.length-1);
+                    if (collection.selected === model) {
+                        if (_.isFunction(options.selectOnRemove)) {
+                            options.selectOnRemove(model, collection, collectionOptions);
+                            return;
+                        }
+
+                        if (collection.length === 0) {
+                            return;
+                        }
+
+                        // Select the model before the previously selected model
+                        if (options.selectOnRemove === "prev") {
+                            collection.at(prevIndex).select();
+                            return;
+                        }
+
+                        // Select the model before the previously selected model
+                        if (options.selectOnRemove === "next") {
+                            collection.at(nextIndex).select();
+                            return;
+                        }
+
+                    }
+                });
+            } else {
+                collection.on("remove", function (model, collection) {
+                    if (collection.selected === model) {
+                        delete collection.selected;
+                    }
+                });
+            }
+        
+
+
         updateCollectionSelectionSingleSelect(collection);
     };
 
