@@ -362,4 +362,84 @@ describe("multi-select selectable interaction", function(){
 
   });
 
+  describe("update a collection using refreshSelection no models selected", function () {
+      var m1, m2, m3, collection;
+
+      beforeEach(function () {
+          m1 = new Model();
+          m2 = new Model();
+          m3 = new Model();
+
+          collection = new Collection();
+
+          spyOn(collection, "trigger").andCallThrough();
+
+          collection.add([m1, m2, m3]);
+          collection.refreshSelection();
+      });
+
+      it("should trigger `selected:none` event", function () {
+          expect(collection.trigger).toHaveBeenCalledWith("selected:none",collection);
+      });
+
+  });
+
+  describe("update a collection using refreshSelection no models selected", function () {
+      var m1, m2, m3, collection;
+
+      beforeEach(function () {
+          m1 = new Model();
+          m2 = new Model();
+          m3 = new Model();
+          m1.select();
+
+          collection = new Collection();
+
+          spyOn(collection, "trigger").andCallThrough();
+
+          collection.add([m1, m2, m3]);
+          collection.refreshSelection();
+      });
+
+      it("should trigger `selected:some` event", function () {
+          expect(collection.trigger).toHaveBeenCalledWith("selected:some", collection);
+      });
+
+      it("should have m1 selected in the collection", function () {
+          expect(collection.selected[m1.cid]).toBe(m1);
+      });
+
+  });
+
+  describe("update a collection using refreshSelection no models selected", function () {
+      var m1, m2, m3, collection;
+
+      beforeEach(function () {
+          m1 = new Model();
+          m2 = new Model();
+          m3 = new Model();
+          m1.select();
+          m2.select();
+          m3.select();
+
+          collection = new Collection();
+
+          spyOn(collection, "trigger").andCallThrough();
+
+          collection.add([m1, m2, m3]);
+          collection.refreshSelection();
+      });
+
+      it("should trigger `selected:all` event", function () {
+          expect(collection.trigger).toHaveBeenCalledWith("selected:all", collection);
+      });
+
+      it("should have all models selected in the collection", function () {
+          expect(collection.selected[m1.cid]).toBe(m1);
+          expect(collection.selected[m2.cid]).toBe(m2);
+          expect(collection.selected[m3.cid]).toBe(m3);
+      });
+
+  });
+
 });

@@ -262,7 +262,7 @@ model from the collection's `selected` attribute, and call the model's
 
 ```js
 myModel = new SelectableModel();
-myCol = new MultiCollection();
+myCol = new SingleCollection();
 myCol.deselect(myModel);
 ```
 
@@ -270,13 +270,32 @@ Or
 
 ```js
 myModel = new SelectableModel();
-myCol = new MultiCollection();
+myCol = new SingleCollection();
 myModel.deselect();
 ```
 
 If the model is not currently selected, this is a no-op. If you try to
 deselect a model that is not the currently selected model, the actual
 selected model will not be deselected.
+
+#### SingleSelect#refreshSelection
+
+Updates the selected attribute based on the currently selected items in the SingleSelect collection.
+This is useful if you add/remove/reset the items in the collection and want to update the selection state afterwards.
+Calling this method will select the first selected model and deselect all the rest. It will trigger the appropriate 
+`selected` and `deselected` events.
+
+```js
+myCol = new SingleCollection();
+
+myModel = new SelectableModel();
+
+myModel.select();
+
+myCol.add(myModel);
+
+myCol.refreshSelection(); //now myCol.selected === myModel
+```
 
 ### SingleSelect Attributes
 
@@ -416,6 +435,24 @@ The following rules are used when toggling:
 * If no models are selected, select them all
 * If 1 or more models, but less than all models are selected, select them all
 * If all models are selected, deselect them all
+
+#### MultiSelect#refreshSelection
+
+Updates the selected attribute based on the currently selected items in the MultiSelect collection.
+This is useful if you add/remove/reset the items in the collection and want to update the selection state afterwards.
+Calling this method will trigger the `selected:XXX` events appropriately.
+
+```js
+myCol = new MultiCollection();
+
+myModel = new SelectableModel();
+
+myModel.select();
+
+myCol.add(myModel);
+
+myCol.refreshSelection();
+```
 
 ### MultiSelect Attributes
 

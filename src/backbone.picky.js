@@ -53,21 +53,7 @@ Backbone.Picky = (function (Backbone, _) {
         //Finds the first selected model in the collection and selects it,
         //deselects all other models
         refreshSelection: function () {
-            var _this = this;
-            delete _this.selected;
-            
-            this.each(function (model) {
-                if (model.selected) {
-                    if (_this.selected) {
-                        model.deselect({ silent: true });
-                    } else {
-                        _this.selected = model;
-                    }
-                }
-            });
-            if (_this.selected) {
-                _this.trigger("selected", _this.selected);
-            }
+            updateCollectionSelectionSingleSelect(this);
         }
 
     });
@@ -139,6 +125,12 @@ Backbone.Picky = (function (Backbone, _) {
             } else {
                 this.selectAll();
             }
+        },
+
+        // Updates the internal data structure of the collection to the selected state of models
+        // in the collection. Triggers selected:none, selected:some, or selected:all event.
+        refreshSelection: function () {
+            updateCollectionSelectionMultiSelect(this);
         }
     });
 
@@ -241,18 +233,26 @@ Backbone.Picky = (function (Backbone, _) {
     // Update the state of selected metadata on the collection based on 
     // the items contained in the collection
     updateCollectionSelectionSingleSelect = function (collection) {
+        delete collection.selected;
         collection.each(function (model) {
             if (model.selected) {
-                collection.selected = model;
-                return;
+                if (collection.selected) {
+                    model.deselect({ silent: true });
+                } else {
+                    collection.selected = model;
+                }
             }
         });
+        if (collection.selected) {
+            collection.trigger("selected", collection.selected);
+        }
     },
 
 
     // Update the state of selected metadata on the collection based on 
     // the items contained in the collection
     updateCollectionSelectionMultiSelect = function (collection) {
+        collection.selected = {};
         collection.each(function (model) {
             if (model.selected) {
                 collection.selected[model.cid] = model;
