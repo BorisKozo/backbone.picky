@@ -454,6 +454,23 @@ myCol.add(myModel);
 myCol.refreshSelection();
 ```
 
+#### MultiSelect#getSelected
+
+Returns an array that contains all the selected models in the collection.
+
+```js
+myCol = new MultiCollection();
+
+myModel1 = new SelectableModel();
+myModel2 = new SelectableModel();
+
+myCol.add([myModel1,myModel2]);
+
+myMode2.select();
+
+myCol.getSelected(); // returns [myModel2]
+```
+
 ### MultiSelect Attributes
 
 The following attribute is set by the multi-select automatically

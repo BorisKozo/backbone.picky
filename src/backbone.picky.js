@@ -17,7 +17,7 @@ Backbone.Picky = (function (Backbone, _) {
         if (options) {
             collection.singleSelectOptions = options;
             if (options.selectOnAdd) {
-                collection.on("add", function (model, collection, options) {
+                collection.on("add", function (model, collection) {
                     collection.select(model);
                 });
             }
@@ -77,13 +77,13 @@ Backbone.Picky = (function (Backbone, _) {
 
     Picky.MultiSelect.mixInto = function (collection, options) {
         var multiSelect = new Picky.MultiSelect();
-      
+
         multiSelect.selected = {};
         _.extend(collection, multiSelect);
         if (options) {
             multiSelect.multiSelectOptions = options;
             if (options.selectOnAdd) {
-                collection.on("add", function (model, collection, options) {
+                collection.on("add", function (model, collection) {
                     collection.select(model);
                 });
             }
@@ -147,6 +147,18 @@ Backbone.Picky = (function (Backbone, _) {
         // in the collection. Triggers selected:none, selected:some, or selected:all event.
         refreshSelection: function () {
             updateCollectionSelectionMultiSelect(this);
+        },
+
+        // returns an array of all the selected models
+        getSelected: function () {
+            var modelCid, result = [];
+            for (modelCid in this.selected) {
+                if (this.selected.hasOwnProperty(modelCid)) {
+                    result.push(this.selected[modelCid]);
+                }
+            }
+
+            return result;
         }
     });
 

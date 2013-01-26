@@ -4,9 +4,9 @@
         initialize: function () {
             Backbone.Picky.Selectable.mixInto(this);
         }
-    });
+    }),
 
-    var Collection = Backbone.Collection.extend({
+    Collection = Backbone.Collection.extend({
         model: Model,
 
         initialize: function () {
@@ -25,7 +25,7 @@
 
             spyOn(collection, "trigger").andCallThrough();
 
-            collection.add(model)
+            collection.add(model);
         });
 
         it("should have the new model selected", function () {
