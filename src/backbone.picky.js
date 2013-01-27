@@ -15,50 +15,52 @@ Backbone.Picky = (function (Backbone, _) {
         var singleSelect = new Picky.SingleSelect();
         _.extend(collection, singleSelect);
 
-            if (options && options.selectOnAdd) {
-                collection.on("add", function (model, collection) {
-                    collection.select(model);
-                });
-            }
+        if (options && options.selectOnAdd) {
+            collection.on("add", function (model, collection) {
+                collection.select(model);
+            });
+        }
 
-            if (options && options.selectOnRemove) {
-                collection.on("remove", function (model, collection, collectionOptions) {
-                    var index = collectionOptions.index,
-                        prevIndex = Math.max(index - 1, 0),
-                        nextIndex = Math.min(index, collection.length-1);
-                    if (collection.selected === model) {
-                        if (_.isFunction(options.selectOnRemove)) {
-                            options.selectOnRemove(model, collection, collectionOptions);
-                            return;
-                        }
-
-                        if (collection.length === 0) {
-                            return;
-                        }
-
-                        // Select the model before the previously selected model
-                        if (options.selectOnRemove === "prev") {
-                            collection.at(prevIndex).select();
-                            return;
-                        }
-
-                        // Select the model before the previously selected model
-                        if (options.selectOnRemove === "next") {
-                            collection.at(nextIndex).select();
-                            return;
-                        }
-
+        if (options && options.selectOnRemove) {
+            collection.on("remove", function (model, collection, collectionOptions) {
+                var index = collectionOptions.index,
+                    prevIndex = Math.max(index - 1, 0),
+                    nextIndex = Math.min(index, collection.length - 1);
+                if (collection.selected === model) {
+                    if (_.isFunction(options.selectOnRemove)) {
+                        options.selectOnRemove(model, collection, collectionOptions);
+                        return;
                     }
-                });
-            } else {
-                collection.on("remove", function (model, collection) {
-                    if (collection.selected === model) {
-                        delete collection.selected;
-                    }
-                });
-            }
-        
 
+                    if (collection.length === 0) {
+                        return;
+                    }
+
+                    // Select the model before the previously selected model
+                    if (options.selectOnRemove === "prev") {
+                        collection.at(prevIndex).select();
+                        return;
+                    }
+
+                    // Select the model before the previously selected model
+                    if (options.selectOnRemove === "next") {
+                        collection.at(nextIndex).select();
+                        return;
+                    }
+
+                }
+            });
+        } else {
+            collection.on("remove", function (model, collection) {
+                if (collection.selected === model) {
+                    delete collection.selected;
+                }
+            });
+        }
+
+        collection.on("reset", function (model, collection) {
+            collection.refreshSelection();
+        });
 
         updateCollectionSelectionSingleSelect(collection);
     };
@@ -118,14 +120,25 @@ Backbone.Picky = (function (Backbone, _) {
 
         multiSelect.selected = {};
         _.extend(collection, multiSelect);
-        if (options) {
-            multiSelect.multiSelectOptions = options;
-            if (options.selectOnAdd) {
-                collection.on("add", function (model, collection) {
-                    collection.select(model);
-                });
-            }
+        if (options && options.selectOnAdd) {
+            collection.on("add", function (model, collection) {
+                collection.select(model);
+            });
         }
+
+        collection.on("remove", function (model, collection) {
+            if (collection.selected && collection.selected.hasOwnProperty(model.cid)) {
+                delete collection.selected[model.cid];
+                calculateSelectedLength(collection);
+            }
+        });
+
+
+        collection.on("reset", function (model, collection) {
+            collection.refreshSelection();
+        });
+
+
         updateCollectionSelectionMultiSelect(collection);
     };
 

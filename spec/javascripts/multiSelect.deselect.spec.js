@@ -98,4 +98,33 @@ describe("multi-select collection deselecting", function(){
     });
   });
 
+  describe("when a model is removed it should no longer be selected", function () {
+      var m1, m2, collection;
+
+      beforeEach(function () {
+          m1 = new Model();
+          m2 = new Model();
+
+          collection = new Collection([m1, m2]);
+          m1.select();
+
+          spyOn(collection, "trigger").andCallThrough();
+          collection.remove(m1);
+      });
+
+      it("should trigger 'none' selected event", function () {
+          expect(collection.trigger).toHaveBeenCalledWith("selected:none", collection);
+      });
+
+      it("should have a selected count of 0", function () {
+          expect(collection.selectedLength).toBe(0);
+      });
+
+      it("should not have any models in the selected list", function () {
+          var size = _.size(collection.selected);
+          expect(size).toBe(0);
+      });
+  });
+
+
 });

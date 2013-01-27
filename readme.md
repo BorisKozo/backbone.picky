@@ -226,6 +226,49 @@ SingleCollection = Backbone.Collection.extend({
   }
 });
 ```
+### SingleSelect Options
+
+You may provide an optional `options` argument to the `mixInto` function.
+
+#### SingleSelect#options.selectOnAdd
+
+When `selectOnAdd` is truthy then a newly added model will be automatically selected.
+ ```js
+SingleCollection = Backbone.Collection.extend({
+  model: SelectableModel,
+
+  initialize: function(){
+    Backbone.Picky.SingleSelect.mixInto(this,{selectOnAdd:true});
+  }
+});
+
+myModel = new SelectableModel();
+myCol = new SingleCollection();
+myCol.add(myModel); //myModel is now selected
+```
+
+#### SingleSelect#options.selectOnRemove
+
+When `selectOnRemove` is `prev` then removing the currently selected model from the collection will select the previous model.
+When `selectOnRemove` is `next` then removing the currently selected model from the collection will select the next model.
+'selectOnRemove` may be a custom function (model, collection, options) that allows you which model to select.
+
+ ```js
+SingleCollection = Backbone.Collection.extend({
+  model: SelectableModel,
+
+  initialize: function(){
+    Backbone.Picky.SingleSelect.mixInto(this,{selectOnRemove:"next"});
+  }
+});
+
+myModel1 = new SelectableModel();
+myModel2 = new SelectableModel();
+
+myCol = new SingleCollection([myModel1, myModel2]);
+myModel1.select();
+myCol.remove(myModel1); //This selects myModel2
+```
 
 ### SingleSelect Methods
 
@@ -356,6 +399,28 @@ MultiCollection = Backbone.Collection.extend({
   }
 });
 ```
+
+### MultiSelect Options
+
+You may provide an optional `options` argument to the `mixInto` function.
+
+#### MultiSelect#options.selectOnAdd
+
+When `selectOnAdd` is truthy then a newly added model will be automatically selected.
+ ```js
+MultiCollection = Backbone.Collection.extend({
+  model: SelectableModel,
+
+  initialize: function(){
+    Backbone.Picky.MultiSelect.mixInto(this,{selectOnAdd:true});
+  }
+});
+
+myModel = new SelectableModel();
+myCol = new MultiCollection();
+myCol.add(myModel); //myModel is now selected
+```
+
 ### MultiSelect Methods
 
 The following methods are provided by the `MultiSelect` object
