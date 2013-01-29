@@ -27,7 +27,7 @@ describe("multi-select collection toggle", function(){
     });
     
     it("should trigger 'all' selected event", function(){
-      expect(collection.trigger).toHaveBeenCalledWith("selected:all", collection);
+        expect(collection.trigger).toHaveBeenCalledWith("collection:selected:all", collection);
     });
 
     it("should have a selected count of 2", function(){
@@ -56,7 +56,7 @@ describe("multi-select collection toggle", function(){
     });
     
     it("should trigger 'all' selected event", function(){
-      expect(collection.trigger).toHaveBeenCalledWith("selected:all", collection);
+        expect(collection.trigger).toHaveBeenCalledWith("collection:selected:all", collection);
     });
 
     it("should have a selected count of 2", function(){
@@ -86,7 +86,7 @@ describe("multi-select collection toggle", function(){
     });
     
     it("should trigger 'none' selected event", function(){
-      expect(collection.trigger).toHaveBeenCalledWith("selected:none", collection);
+        expect(collection.trigger).toHaveBeenCalledWith("collection:selected:none", collection);
     });
 
     it("should have a selected count of 0", function(){

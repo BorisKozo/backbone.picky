@@ -82,20 +82,23 @@ Backbone.Picky = (function (Backbone, _) {
 
             this.selected = model;
             this.selected.select();
-            this.trigger("selected", model);
+            this.trigger("collection:selected", model);
         },
 
         // Deselect a model, resulting in no model
         // being selected
         deselect: function (model) {
+            var selected;
+
             if (!this.selected) { return; }
 
             model = model || this.selected;
             if (this.selected !== model) { return; }
 
-            this.selected.deselect();
-            this.trigger("deselected", this.selected);
+            selected = this.selected;
             delete this.selected;
+            this.trigger("collection:deselected", selected);
+            selected.deselect();
         },
 
         //Finds the first selected model in the collection and selects it,
@@ -233,15 +236,16 @@ Backbone.Picky = (function (Backbone, _) {
         select: function (options) {
             if (this.selected) { return; }
 
+            if (this.collection && _.isFunction(this.collection.select)) {
+                this.collection.select(this);
+            }
+
             this.selected = true;
 
             if (options && options.silent) { return; }
 
-            this.trigger("selected");
+            this.trigger("model:selected");
 
-            if (this.collection) {
-                this.collection.select(this);
-            }
         },
 
         // Deselect this model, and tell our
@@ -249,15 +253,16 @@ Backbone.Picky = (function (Backbone, _) {
         deselect: function (options) {
             if (!this.selected) { return; }
 
+            if (this.collection && _.isFunction(this.collection.deselect)) {
+                this.collection.deselect(this);
+            }
+
             this.selected = false;
 
             if (options && options.silent) { return; }
 
-            this.trigger("deselected");
+            this.trigger("model:deselected");
 
-            if (this.collection) {
-                this.collection.deselect(this);
-            }
         },
 
         // Change selected to the opposite of what
@@ -294,17 +299,17 @@ Backbone.Picky = (function (Backbone, _) {
          length = collection.length;
 
         if (selectedLength === length) {
-            collection.trigger("selected:all", collection);
+            collection.trigger("collection:selected:all", collection);
             return;
         }
 
         if (selectedLength === 0) {
-            collection.trigger("selected:none", collection);
+            collection.trigger("collection:selected:none", collection);
             return;
         }
 
         if (selectedLength > 0 && selectedLength < length) {
-            collection.trigger("selected:some", collection);
+            collection.trigger("collection:selected:some", collection);
             return;
         }
     },
@@ -323,7 +328,7 @@ Backbone.Picky = (function (Backbone, _) {
             }
         });
         if (collection.selected) {
-            collection.trigger("selected", collection.selected);
+            collection.trigger("collection:selected", collection.selected);
         }
     },
 

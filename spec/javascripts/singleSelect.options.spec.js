@@ -34,7 +34,7 @@
         });
 
         it("should have triggered the selected event", function () {
-            expect(collection.trigger).toHaveBeenCalledWith("selected");
+            expect(collection.trigger).toHaveBeenCalledWith("model:selected");
         });
 
 
@@ -63,7 +63,7 @@
         });
 
         it("should have triggered the selected event", function () {
-            expect(collection.trigger).toHaveBeenCalledWith("selected");
+            expect(collection.trigger).toHaveBeenCalledWith("model:selected");
         });
 
         it("should have the last model selected", function () {
@@ -97,7 +97,7 @@
         });
 
         it("should have triggered the selected event", function () {
-            expect(collection.trigger).toHaveBeenCalledWith("selected");
+            expect(collection.trigger).toHaveBeenCalledWith("model:selected");
         });
 
         it("should have the last model selected", function () {
@@ -132,7 +132,7 @@
         });
 
         it("should have triggered the selected event", function () {
-            expect(collection.trigger).toHaveBeenCalledWith("selected");
+            expect(collection.trigger).toHaveBeenCalledWith("model:selected");
         });
     });
 

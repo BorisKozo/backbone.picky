@@ -20,7 +20,7 @@ describe("selectable model", function(){
     });
 
     it("should notify of selection", function(){
-      expect(model.trigger).toHaveBeenCalledWith("selected");
+      expect(model.trigger).toHaveBeenCalledWith("model:selected");
     });
   });
 
@@ -39,7 +39,7 @@ describe("selectable model", function(){
       });
 
       it("should not notify of selection", function () {
-          expect(model.trigger).not.toHaveBeenCalledWith("selected");
+          expect(model.trigger).not.toHaveBeenCalledWith("model:selected");
       });
   });
 
@@ -59,7 +59,7 @@ describe("selectable model", function(){
     });
 
     it("should not notify of selection", function(){
-      expect(model.trigger).not.toHaveBeenCalledWith("selected");
+      expect(model.trigger).not.toHaveBeenCalledWith("model:selected");
     });
   });
 
@@ -79,7 +79,7 @@ describe("selectable model", function(){
     });
 
     it("should notify of deselection", function(){
-      expect(model.trigger).toHaveBeenCalledWith("deselected");
+      expect(model.trigger).toHaveBeenCalledWith("model:deselected");
     });
   });
 
@@ -99,7 +99,7 @@ describe("selectable model", function(){
       });
 
       it("should notify of deselection", function () {
-          expect(model.trigger).not.toHaveBeenCalledWith("deselected");
+          expect(model.trigger).not.toHaveBeenCalledWith("model:deselected");
       });
   });
 
@@ -118,7 +118,7 @@ describe("selectable model", function(){
     });
 
     it("should not notify of deselection", function(){
-      expect(model.trigger).not.toHaveBeenCalledWith("deselected");
+      expect(model.trigger).not.toHaveBeenCalledWith("model:deselected");
     });
   });
 
@@ -138,7 +138,7 @@ describe("selectable model", function(){
       });
 
       it("should notify of deselection", function () {
-          expect(model.trigger).toHaveBeenCalledWith("deselected");
+          expect(model.trigger).toHaveBeenCalledWith("model:deselected");
       });
   });
 
@@ -158,7 +158,7 @@ describe("selectable model", function(){
       });
 
       it("should notify of selection", function () {
-          expect(model.trigger).toHaveBeenCalledWith("selected");
+          expect(model.trigger).toHaveBeenCalledWith("model:selected");
       });
   });
 
@@ -178,7 +178,7 @@ describe("selectable model", function(){
       });
 
       it("should notify of deselection", function () {
-          expect(model.trigger).toHaveBeenCalledWith("selected");
+          expect(model.trigger).toHaveBeenCalledWith("model:selected");
       });
   });
 
@@ -198,7 +198,7 @@ describe("selectable model", function(){
       });
 
       it("should not notify of selection", function () {
-          expect(model.trigger).not.toHaveBeenCalledWith("selected");
+          expect(model.trigger).not.toHaveBeenCalledWith("model:selected");
       });
   });
 
@@ -218,7 +218,7 @@ describe("selectable model", function(){
       });
 
       it("should notify of deselection", function () {
-          expect(model.trigger).toHaveBeenCalledWith("deselected");
+          expect(model.trigger).toHaveBeenCalledWith("model:deselected");
       });
   });
 
@@ -238,7 +238,7 @@ describe("selectable model", function(){
       });
 
       it("should not notify of deselection", function () {
-          expect(model.trigger).not.toHaveBeenCalledWith("deselected");
+          expect(model.trigger).not.toHaveBeenCalledWith("model:deselected");
       });
   });
 

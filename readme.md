@@ -35,7 +35,7 @@ attributes and events.
 
 #### IMPORTANT NOTE ABOUT METHOD NAME "select" by Derick Bailey
 
-The Picky collections override the metho `select` on collections. At this
+The Picky collections override the method `select` on collections. At this
 point, I can't think of a better name for specifying a model has been
 selected. Once I find a better name, the API will change. But for now,
 you will not be able to use the standard `select` method on any
@@ -107,12 +107,12 @@ The following methods are included in the `Selectable` mixin
 #### Selectable#select
 
 Select a model, setting the model's `selected` attribute to true and 
-triggering a "select" event.
+triggering a "selected" event.
 
 ```js
 var myModel = new SelectableModel();
 
-myModel.on("select", function(){
+myModel.on("model:selected", function(){
   console.log("I'm selected!");
 });
 
@@ -122,12 +122,12 @@ myModel.selected; //=> true
 #### Selectable#deselect
 
 Deselect a model, setting the model's `selected` attribute to false and 
-triggering a "deselected" event.
+triggering a "model:deselected" event.
 
 ```js
 var myModel = new SelectableModel();
 
-myModel.on("deselected", function(){
+myModel.on("model:deselected", function(){
   console.log("I'm no longer selected!");
 });
 
@@ -145,11 +145,11 @@ Toggles the selection state between selected and deselected.
 ```js
 var myModel = new SelectableModel();
 
-myModel.on("select", function(){
+myModel.on("model:selected", function(){
   console.log("I'm selected!");
 });
 
-myModel.on("deselected", function(){
+myModel.on("model:deselected", function(){
   console.log("I'm no longer selected!");
 });
 
@@ -165,11 +165,11 @@ If the given _value_ is truthy selects the model, otherwise deselects it.
 ```js
 var myModel = new SelectableModel();
 
-myModel.on("select", function(){
+myModel.on("model:selected", function(){
   console.log("I'm selected!");
 });
 
-myModel.on("deselected", function(){
+myModel.on("model:deselected", function(){
   console.log("I'm no longer selected!");
 });
 
@@ -191,11 +191,11 @@ currently selected.
 
 The following events are triggered from Selectable models
 
-#### "selected"
+#### "model:selected"
 
 Triggers when a model is selected. 
 
-#### "deselected"
+#### "model:deselected"
 
 Triggers when a model is deselected.
 
@@ -360,12 +360,12 @@ myCol.selected; //=> model
 The following events are triggered by the SingleSelect based on changes
 in selection:
 
-#### "selected"
+#### "collection:selected"
 
 Triggered when a model has been selected. Provides the selected model
 as the first parameter.
 
-#### "deselected"
+#### "collection:deselected"
 
 Triggered when a model has been deselected. Provides the deselected model
 as the first parameter.
@@ -505,7 +505,7 @@ The following rules are used when toggling:
 
 Updates the selected attribute based on the currently selected items in the MultiSelect collection.
 This is useful if you add/remove/reset the items in the collection and want to update the selection state afterwards.
-Calling this method will trigger the `selected:XXX` events appropriately.
+Calling this method will trigger the `collection:selected:XXX` events appropriately.
 
 ```js
 myCol = new MultiCollection();
@@ -572,15 +572,15 @@ myCol.selectedLength; //=> 1
 The following events are triggered by the MultiSelect based on changes
 in selection:
 
-#### "selected:all"
+#### "collection:selected:all"
 
 Triggered when all models have been selected
 
-#### "selected:none"
+#### "collection:selected:none"
 
 Triggered when all models have been deselected
 
-#### "selected:some"
+#### "collection:selected:some"
 
 Triggered when at least 1 model is selected, but less than all models have
 been selected

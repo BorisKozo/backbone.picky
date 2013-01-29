@@ -28,7 +28,7 @@ describe("multi-select collection deselecting", function(){
     });
     
     it("should trigger 'none' selected event", function(){
-      expect(collection.trigger).toHaveBeenCalledWith("selected:none", collection);
+        expect(collection.trigger).toHaveBeenCalledWith("collection:selected:none", collection);
     });
 
     it("should have a selected count of 0", function(){
@@ -56,7 +56,7 @@ describe("multi-select collection deselecting", function(){
     });
     
     it("should trigger 'none' selected event", function(){
-      expect(collection.trigger).toHaveBeenCalledWith("selected:none", collection);
+        expect(collection.trigger).toHaveBeenCalledWith("collection:selected:none", collection);
     });
 
     it("should have a selected count of 0", function(){
@@ -85,7 +85,7 @@ describe("multi-select collection deselecting", function(){
     });
     
     it("should trigger 'none' selected event", function(){
-      expect(collection.trigger).toHaveBeenCalledWith("selected:none", collection);
+        expect(collection.trigger).toHaveBeenCalledWith("collection:selected:none", collection);
     });
 
     it("should have a selected count of 0", function(){
@@ -113,7 +113,7 @@ describe("multi-select collection deselecting", function(){
       });
 
       it("should trigger 'none' selected event", function () {
-          expect(collection.trigger).toHaveBeenCalledWith("selected:none", collection);
+          expect(collection.trigger).toHaveBeenCalledWith("collection:selected:none", collection);
       });
 
       it("should have a selected count of 0", function () {

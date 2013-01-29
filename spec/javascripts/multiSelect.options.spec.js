@@ -25,7 +25,7 @@
         });
 
         it("should trigger 'all' selected event", function () {
-            expect(collection.trigger).toHaveBeenCalledWith("selected:all", collection);
+            expect(collection.trigger).toHaveBeenCalledWith("collection:selected:all", collection);
         });
 
         it("should selected the added model", function () {

@@ -31,7 +31,7 @@ describe("single select collection", function () {
         });
 
         it("should trigger a selected event", function () {
-            expect(collection.trigger).toHaveBeenCalledWith("selected", model);
+            expect(collection.trigger).toHaveBeenCalledWith("collection:selected", model);
         });
     });
 
@@ -53,7 +53,7 @@ describe("single select collection", function () {
         });
 
         it("should trigger a selected event", function () {
-            expect(collection.trigger).toHaveBeenCalledWith("selected", model);
+            expect(collection.trigger).toHaveBeenCalledWith("collection:selected", model);
         });
 
         it("should tell the model to select itself", function () {
@@ -91,7 +91,7 @@ describe("single select collection", function () {
 
             spyOn(collection, "trigger").andCallThrough();
             spyOn(m1, "deselect").andCallThrough();
-
+            
             m2.select();
         });
 
@@ -100,7 +100,7 @@ describe("single select collection", function () {
         });
 
         it("should trigger a selected event", function () {
-            expect(collection.trigger).toHaveBeenCalledWith("selected", m2);
+            expect(collection.trigger).toHaveBeenCalledWith("collection:selected", m2);
         });
 
         it("should deselect the first model", function () {
@@ -108,7 +108,7 @@ describe("single select collection", function () {
         });
 
         it("should fire a deselect event for the first model", function () {
-            expect(collection.trigger).toHaveBeenCalledWith("deselected", m1);
+            expect(collection.trigger).toHaveBeenCalledWith("collection:deselected", m1);
         });
     });
 
@@ -137,7 +137,7 @@ describe("single select collection", function () {
             model.select();
 
             spyOn(collection, "trigger").andCallThrough();
-
+         
             collection.deselect();
         });
 
@@ -146,7 +146,7 @@ describe("single select collection", function () {
         });
 
         it("should trigger a deselected event", function () {
-            expect(collection.trigger).toHaveBeenCalledWith("deselected", model);
+            expect(collection.trigger).toHaveBeenCalledWith("collection:deselected", model);
         });
     });
 
@@ -178,11 +178,11 @@ describe("single select collection", function () {
         });
 
         it("should not trigger a deselected event for the selected model", function () {
-            expect(collection.trigger).not.toHaveBeenCalledWith("deselected", m1);
+            expect(collection.trigger).not.toHaveBeenCalledWith("model:deselected", m1);
         });
 
         it("should not trigger a deselected event for the non-selected model", function () {
-            expect(collection.trigger).not.toHaveBeenCalledWith("deselected", m2);
+            expect(collection.trigger).not.toHaveBeenCalledWith("model:deselected", m2);
         });
     });
 
@@ -214,11 +214,11 @@ describe("single select collection", function () {
         });
 
         it("should not trigger a deselected event for the selected model", function () {
-            expect(collection.trigger).not.toHaveBeenCalledWith("deselected", m1);
+            expect(collection.trigger).not.toHaveBeenCalledWith("model:deselected", m1);
         });
 
         it("should not trigger a deselected event for the non-selected model", function () {
-            expect(collection.trigger).not.toHaveBeenCalledWith("deselected", m2);
+            expect(collection.trigger).not.toHaveBeenCalledWith("model:deselected", m2);
         });
     });
 
@@ -309,7 +309,7 @@ describe("single select collection", function () {
 
     });
 
-    describe("when removing a selected item no item is slected", function () {
+    describe("when removing a selected item no item is selected", function () {
         var collection, model1, model2, model3;
 
         beforeEach(function () {
