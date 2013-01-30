@@ -466,4 +466,30 @@ describe("multi-select selectable interaction", function () {
 
     });
 
+    describe("when the collection is reset", function () {
+        var m1, m2, m3, collection, selectedModels;
+
+        beforeEach(function () {
+            m1 = new Model();
+            m2 = new Model();
+            m3 = new Model();
+
+            m1.select();
+            
+            collection = new Collection([m1, m2, m3]);
+            spyOn(collection, "trigger").andCallThrough();
+            collection.trigger("reset",collection);
+        });
+
+        it("m1 should be selected", function () {
+            expect(collection.selected[m1.cid]).toBe(m1);
+            expect(m1.selected).toBeTruthy();
+        });
+
+        it("selection event should be triggered", function () {
+            expect(collection.trigger).toHaveBeenCalledWith("collection:selected:some", collection);
+        });
+
+    });
+
 });

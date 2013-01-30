@@ -58,7 +58,7 @@ Backbone.Picky = (function (Backbone, _) {
             });
         }
 
-        collection.on("reset", function (model, collection) {
+        collection.on("reset", function (collection) {
             collection.refreshSelection();
         });
 
@@ -137,7 +137,7 @@ Backbone.Picky = (function (Backbone, _) {
         });
 
 
-        collection.on("reset", function (model, collection) {
+        collection.on("reset", function (collection) {
             collection.refreshSelection();
         });
 
