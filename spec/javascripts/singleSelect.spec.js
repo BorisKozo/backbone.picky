@@ -330,5 +330,26 @@ describe("single select collection", function () {
         });
 
     });
+    describe("when reseting the collection some model should be selected", function () {
+        var collection, model1, model2, model3;
+
+        beforeEach(function () {
+            model1 = new Model();
+            model2 = new Model();
+            model3 = new Model();
+            model2.select();
+            collection = new Collection([model1, model2, model3]);
+
+        
+
+            collection.trigger("reset", collection);
+        });
+
+        it("should have model2 selected", function () {
+            expect(collection.selected).toBe(model2);
+        });
+
+
+    });
 
 });
