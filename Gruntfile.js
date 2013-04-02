@@ -8,7 +8,7 @@ module.exports = function (grunt) {
     // Project configuration.
     grunt.initConfig({
         meta: {
-            version: '0.2.1',
+            version: '0.2.2',
             banner: '// Backbone.Picky, v<%= meta.version %>\n' +
               '// Copyright (c)<%= grunt.template.today("yyyy") %> Derick Bailey, Muted Solutions, LLC.\n' +
               '// Copyright (c)<%= grunt.template.today("yyyy") %> Boris Kozorovitzky.\n' +

@@ -8,7 +8,6 @@ describe("single select collection", function () {
 
     var Collection = Backbone.Collection.extend({
         model: Model,
-
         initialize: function () {
             Backbone.Picky.SingleSelect.mixInto(this);
         }
@@ -86,6 +85,7 @@ describe("single select collection", function () {
         beforeEach(function () {
             m1 = new Model();
             m2 = new Model();
+      
             collection = new Collection([m1, m2]);
             m1.select();
 

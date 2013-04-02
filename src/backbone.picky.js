@@ -12,9 +12,7 @@ Backbone.Picky = (function (Backbone, _) {
     };
 
     Picky.SingleSelect.mixInto = function (collection, options) {
-        var singleSelect = new Picky.SingleSelect();
         _.extend(collection, singleSelect);
-
         if (options && options.selectOnAdd) {
             collection.on("add", function (model, collection) {
                 collection.select(model);
@@ -65,7 +63,7 @@ Backbone.Picky = (function (Backbone, _) {
         updateCollectionSelectionSingleSelect(collection);
     };
 
-    _.extend(Picky.SingleSelect.prototype, {
+   var singleSelect = {
 
         // Select a model, deselecting any previously
         // select model
@@ -107,7 +105,7 @@ Backbone.Picky = (function (Backbone, _) {
             updateCollectionSelectionSingleSelect(this);
         }
 
-    });
+    };
 
     // Picky.MultiSelect
     // -----------------
@@ -119,10 +117,10 @@ Backbone.Picky = (function (Backbone, _) {
     };
 
     Picky.MultiSelect.mixInto = function (collection, options) {
-        var multiSelect = new Picky.MultiSelect();
 
-        multiSelect.selected = {};
+
         _.extend(collection, multiSelect);
+        collection.selected = {};
         if (options && options.selectOnAdd) {
             collection.on("add", function (model, collection) {
                 collection.select(model);
@@ -145,7 +143,7 @@ Backbone.Picky = (function (Backbone, _) {
         updateCollectionSelectionMultiSelect(collection);
     };
 
-    _.extend(Picky.MultiSelect.prototype, {
+    var multiSelect = {
 
         // Select a specified model, make sure the
         // model knows it's selected, and hold on to
@@ -214,7 +212,7 @@ Backbone.Picky = (function (Backbone, _) {
 
             return result;
         }
-    });
+    };
 
     // Picky.Selectable
     // ----------------
@@ -225,11 +223,10 @@ Backbone.Picky = (function (Backbone, _) {
     };
 
     Picky.Selectable.mixInto = function (model) {
-        var selectable = new Picky.Selectable();
         _.extend(model, selectable);
     };
 
-    _.extend(Picky.Selectable.prototype, {
+    var selectable = {
 
         // Select this model, and tell our
         // collection that we're selected
@@ -284,7 +281,7 @@ Backbone.Picky = (function (Backbone, _) {
             }
         }
 
-    });
+    };
 
     // Helper Methods
     // --------------

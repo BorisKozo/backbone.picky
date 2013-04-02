@@ -11,6 +11,7 @@ files = [
   JASMINE,
   JASMINE_ADAPTER,
   'public/javascripts/underscore.js',
+  //'public/javascripts/lodash.js',
   'public/javascripts/backbone.js',
   'src/backbone.picky.js',
   'spec/javascripts/*.spec.js'
