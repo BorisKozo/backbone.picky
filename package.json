@@ -1,9 +1,12 @@
 {
   "name": "backbone.picky",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "devDependencies": {
 	"testacular":"*",
 	"grunt": "*",
-    "grunt-rigger": "*"
+    "grunt-rigger": "*",
+	"grunt-contrib-jshint":"*",
+	"grunt-contrib-uglify":"*"
+
   }
 }
