@@ -1,0 +1,14 @@
+{
+  "name": "backbone.picky.extended",
+  "version": "0.2.2",
+  "main": "./lib/backbone.picky.min.js",
+  "description":"An extended version of the original Backbone.picky component",
+  "dependencies":{
+     "backbone":"1.0.0"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components"
+  ]
+}
