@@ -1,5 +1,7 @@
-Backbone.Picky = (function (Backbone, _) {
+var Picky = (function (Backbone, _) {
+
     var Picky = {};
+    Backbone.Picky = Picky;
 
     // Picky.SingleSelect
     // ------------------
